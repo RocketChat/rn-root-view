@@ -8,11 +8,12 @@ const setRootViewColor = (color) => {
   if (isIOS) {
     let c = color.substring(1).split('');
     c = `0x${ c.join('') }`;
-    RootView.setColor([
+    RootView.setColor(
       parseFloat((c >> 16) & 255),
       parseFloat((c >> 8) & 255),
-      parseFloat(c & 255)
-    ]);
+      parseFloat(c & 255),
+      1
+    );
   } else {
     RootView.setColor(color);
   }
