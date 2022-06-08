@@ -1,43 +1,28 @@
 package chat.rocket.rootview;
 
-import android.app.Activity;
-import android.view.View;
-import android.graphics.Color;
+import androidx.annotation.NonNull;
 
+import com.facebook.react.ReactPackage;
+import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Callback;
+import com.facebook.react.uimanager.ViewManager;
 
-public class RootViewModule extends ReactContextBaseJavaModule {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-    private final ReactApplicationContext reactContext;
-
-    public RootViewModule(ReactApplicationContext reactContext) {
-        super(reactContext);
-        this.reactContext = reactContext;
-    }
-
+public class RootViewPackage implements ReactPackage {
+    @NonNull
     @Override
-    public String getName() {
-        return "RootView";
+    public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) {
+        List<NativeModule> modules = new ArrayList<>();
+        modules.add(new RootViewModule(reactContext));
+        return modules;
     }
 
-    @ReactMethod
-    public void setColor(final String color) {
-        final Activity activity = getCurrentActivity();
-
-        if (activity == null) {
-            return;
-        }
-
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                View rootView = activity.getWindow().getDecorView();
-                int parsedColor = Color.parseColor(color);
-                rootView.getRootView().setBackgroundColor(parsedColor);
-            }
-        });
+    @NonNull
+    @Override
+    public List<ViewManager> createViewManagers(@NonNull ReactApplicationContext reactContext) {
+        return Collections.emptyList();
     }
 }
